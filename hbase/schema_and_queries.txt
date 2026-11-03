@@ -1,0 +1,20 @@
+# ---- HBase schema (run inside: docker exec -it ecom-hbase /opt/hbase/bin/hbase shell) ----
+
+# Time-series browsing data. Row key: user_id#reverse_timestamp#session_id
+# Families: meta (session info), device (device info), pv (one column per page view)
+create 'user_sessions', 'meta', 'device', 'pv'
+
+# Product performance metrics. Row key: product_id#yyyymmdd
+# Family m: views, cart_adds, purchases
+create 'product_daily', 'm'
+
+# ---- Sample queries ----
+
+# 1. Show the first 3 sessions (newest first) of one user, session id only
+scan 'user_sessions', {STARTROW => 'user_007129#', STOPROW => 'user_007129$', LIMIT => 3, COLUMNS => ['meta:session_id', 'meta:start_time']}
+
+# 2. Metrics of one product on one day (exact row key)
+get 'product_daily', 'prod_01481#20261006'
+
+# 3. All days of one product in October (range scan; start inclusive, stop exclusive)
+scan 'product_daily', {STARTROW => 'prod_01481#20261001', STOPROW => 'prod_01481#20261101'}

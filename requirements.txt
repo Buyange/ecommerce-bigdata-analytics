@@ -1,0 +1,8 @@
+faker
+numpy
+pandas
+pymongo
+happybase
+pyspark
+matplotlib
+seaborn

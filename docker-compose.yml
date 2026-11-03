@@ -1,0 +1,45 @@
+# AUCA Big Data Final Project - local stack
+# Start:  docker compose up -d
+# Stop:   docker compose down        (add -v to wipe data volumes)
+services:
+  mongo:
+    image: mongo:7
+    container_name: ecom-mongo
+    restart: unless-stopped
+    ports:
+      - "27018:27017"   # laptop port 27018 -> container port 27017
+    volumes:
+      - mongo_data:/data/db
+
+  hbase:
+    image: dajobe/hbase
+    container_name: ecom-hbase
+    hostname: hbase
+    restart: unless-stopped
+    ports:
+      - "16010:16010"   # HBase Master web UI
+      - "9090:9090"     # Thrift server (used by happybase)
+      - "2181:2181"     # ZooKeeper
+    volumes:
+      - hbase_data:/data
+
+  spark:
+    image: quay.io/jupyter/pyspark-notebook:latest
+    container_name: ecom-spark
+    restart: unless-stopped
+    ports:
+      - "8888:8888"     # Jupyter
+      - "4040:4040"     # Spark UI
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - MONGO_URI=mongodb://mongo:27017
+      - HBASE_HOST=hbase
+    volumes:
+      - ./:/home/jovyan/work
+    depends_on:
+      - mongo
+      - hbase
+
+volumes:
+  mongo_data:
+  hbase_data:
