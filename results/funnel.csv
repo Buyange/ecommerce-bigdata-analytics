@@ -1,0 +1,6 @@
+stage,sessions,pct_of_all,pct_of_previous
+0 all sessions,100000,100.0,100.0
+1 viewed a product,98716,98.72,98.72
+2 added to cart,64939,64.94,65.78
+3 reached checkout,29023,29.02,44.69
+4 purchased (order in MongoDB),20239,20.24,69.73

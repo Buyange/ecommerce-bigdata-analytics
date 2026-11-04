@@ -1,0 +1,4 @@
+device_type,sessions,s1_viewed_product,s2_in_cart,s3_checkout,s4_purchased,purchase_rate_pct
+desktop,33436,32999,21595,9635,6796,20.33
+mobile,33194,32756,21591,9652,6691,20.16
+tablet,33370,32961,21753,9736,6752,20.23
